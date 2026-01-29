@@ -1,7 +1,50 @@
+
+# Production
+/build
+/dist
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Docker
+.dockerignore
+
+# Misc
+*.pem
+*.key
+.cert
+
 # Terraform
 .terraform/
-.terraform.lock.hcl
 *.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
 *.tfstate.*
 *.tfvars
 **/.terraform/*
