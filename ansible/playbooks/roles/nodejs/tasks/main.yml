@@ -1,0 +1,20 @@
+# Amazon Linux (NodeSource RPM-based installation)
+
+- name: Add NodeSource Node.js 18 repository (Amazon Linux)
+  shell: |
+    curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
+  args:
+    creates: /etc/yum.repos.d/nodesource-el.repo
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_distribution == "Amazon"
+
+- name: Install Node.js on Amazon Linux
+  yum:
+    name: nodejs
+    state: present
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_distribution == "Amazon"
+
+

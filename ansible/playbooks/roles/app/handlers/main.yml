@@ -1,0 +1,10 @@
+# ansible/roles/app/handlers/main.yml
+- name: Reload systemd
+  command: systemctl daemon-reload
+  become: true
+
+- name: Restart afrimart
+  systemd:
+    name: afrimart
+    state: restarted
+

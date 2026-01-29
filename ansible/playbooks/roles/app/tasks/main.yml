@@ -1,0 +1,50 @@
+# ansible/roles/app/tasks/main.yml
+
+- name: Install Git (Amazon Linux)
+  yum:
+    name: git
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Ensure application directory exists
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Clone application repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_dir }}"
+    version: main
+    force: yes
+
+- name: Verify backend package.json exists
+  stat:
+    path: "{{ app_dir }}/backend/package.json"
+  register: backend_pkg
+
+- name: Fail if backend package.json is missing
+  fail:
+    msg: "backend/package.json not found. This repository is not deployable as a Node.js backend."
+  when: not backend_pkg.stat.exists
+
+- name: Install backend dependencies
+  command: npm install --omit=dev
+  args:
+    chdir: "{{ app_dir }}/backend"
+
+- name: Copy systemd service file
+  copy:
+    src: app.service
+    dest: /etc/systemd/system/afrimart.service
+    mode: '0644'
+  notify: Reload systemd
+
+- name: Enable and start Afrimart backend
+  systemd:
+    name: afrimart
+    enabled: yes
+    state: restarted

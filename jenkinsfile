@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    environment {
+        NODE_ENV = "production"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Ca15y/afrimart-ecommerce.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'cd app && npm install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo "No tests configured yet"
+            }
+        }
+
+        stage('Deploy to Server') {
+            steps {
+                sh 'ci/deploy.sh'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful'
+        }
+        failure {
+            echo 'Deployment failed'
+        }
+    }
+}
+

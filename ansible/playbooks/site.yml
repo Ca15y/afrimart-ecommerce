@@ -1,0 +1,13 @@
+# ansible/playbooks/site.yml
+- name: Configure and deploy Afrimart app servers
+  hosts: app_servers
+  become: true
+  vars_files:
+    - ../group_vars/all.yml
+  roles:
+    - common
+    - nodejs
+    - nginx
+    - app
+    - jenkins
+

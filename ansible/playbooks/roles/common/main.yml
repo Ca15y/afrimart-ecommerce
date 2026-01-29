@@ -1,0 +1,26 @@
+# ansible/roles/common/tasks/main.yml
+- name: Update yum cache and upgrade packages
+  yum:
+    update_cache: yes
+    upgrade: dist
+  when: ansible_os_family == "Debian"
+
+- name: Install common packages
+  yum:
+    name:
+      - git
+      - curl
+      - build-essential
+      - ufw
+      - python3-pip
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Ensure UFW allows SSH and HTTP
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+  loop:
+    - '22'
+    - '80'
+

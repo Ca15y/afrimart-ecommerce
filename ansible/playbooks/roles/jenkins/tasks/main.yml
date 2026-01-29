@@ -1,0 +1,35 @@
+# ansible/roles/jenkins/tasks/main.yml
+
+# 1️⃣ Install Java 17 (Amazon Corretto) — REQUIRED for Jenkins on AL2023
+- name: Install Java 17 (Amazon Corretto) on Amazon Linux 2023
+  dnf:
+    name: java-17-amazon-corretto-devel
+    state: present
+
+# 2️⃣ Add Jenkins repository (Red Hat compatible)
+- name: Add Jenkins repository
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+    mode: '0644'
+
+# 3️⃣ Import Jenkins GPG key
+- name: Import Jenkins GPG key
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+# 4️⃣ Install Jenkins
+- name: Install Jenkins
+  dnf:
+    name: jenkins
+    state: present
+
+# 5️⃣ Start and enable Jenkins
+- name: Start and enable Jenkins
+  systemd:
+    name: jenkins
+    state: started
+    enabled: true
+
+

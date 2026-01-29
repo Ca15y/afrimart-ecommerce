@@ -1,0 +1,15 @@
+[Unit]
+Description=Afrimart Backend
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/afrimart/backend
+ExecStart=/usr/bin/npm start
+Restart=always
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+

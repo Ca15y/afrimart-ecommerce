@@ -1,0 +1,8 @@
+# ansible/group_vars/all.yml
+project: afrimart
+env: staging
+
+app_repo: "https://github.com/Ca15y/afrimart-ecommercee.git"
+app_dir: "/opt/afrimart"
+node_env: "production"
+
