@@ -65,3 +65,9 @@ Thumbs.db
 .env.*
 !.env.example
 **/.env
+
+# Dependencies
+node_modules/
+**/node_modules/
+package-lock.json
+yarn.lock
