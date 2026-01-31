@@ -172,7 +172,7 @@ pipeline {
             echo 'Pipeline succeeded! ✅'
             // Add Slack/email notification here 
         }
-        failure 
+        failure {
             echo 'Pipeline failed! ❌'
             // Add Slack/email notification here 
         }
