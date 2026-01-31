@@ -2,12 +2,15 @@ pipeline {
     agent any
     
     environment {
+
         AWS_REGION = 'us-east-1'
+        AWS_CREDENTIALS = credentials('aws-credentials') // Add this
         AWS_ACCOUNT_ID = sh(script: "aws sts get-caller-identity --query Account --output text", returnStdout: true).trim()
         ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         BACKEND_IMAGE = "${ECR_REGISTRY}/afrimart-backup/backend"
         FRONTEND_IMAGE = "${ECR_REGISTRY}/afrimart-backup/frontend"
         IMAGE_TAG = "${BUILD_NUMBER}"
+
     }
     
     stages {
