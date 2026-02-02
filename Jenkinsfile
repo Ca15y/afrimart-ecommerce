@@ -179,11 +179,5 @@ pipeline {
         echo 'Pipeline failed! ❌'
         // Add Slack/email notification here 
     }
-    cleanup {
-        script {
-            // Clean up Docker images
-            sh 'docker system prune -f || true'
-        }
-    }
   }
 }
