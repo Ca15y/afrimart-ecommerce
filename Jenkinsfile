@@ -20,23 +20,22 @@ pipeline {
         }
         
         stage('Setup AWS Credentials') {
-            steps {
-                script {
-                    echo 'Setting up AWS credentials...'
-                    withCredentials([aws(credentialsId: 'aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        env.AWS_ACCOUNT_ID = sh(
-                            script: "aws sts get-caller-identity --query Account --output text",
-                            returnStdout: true
-                        ).trim()
-                        env.ECR_REGISTRY = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-                        env.BACKEND_IMAGE = "${env.ECR_REGISTRY}/afrimart-backup/backend"
-                        env.FRONTEND_IMAGE = "${env.ECR_REGISTRY}/afrimart-backup/frontend"
-                        env.IMAGE_TAG = "${BUILD_NUMBER}"
-                    }
-                    echo "AWS Account ID: ${env.AWS_ACCOUNT_ID}"
-                }
-            }
+    steps {
+        script {
+            echo 'Setting up AWS credentials...'
+            // No withCredentials needed - uses EC2 IAM role
+            env.AWS_ACCOUNT_ID = sh(
+                script: "aws sts get-caller-identity --query Account --output text",
+                returnStdout: true
+            ).trim()
+            env.ECR_REGISTRY = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+            env.BACKEND_IMAGE = "${env.ECR_REGISTRY}/afrimart-backup/backend"
+            env.FRONTEND_IMAGE = "${env.ECR_REGISTRY}/afrimart-backup/frontend"
+            env.IMAGE_TAG = "${BUILD_NUMBER}"
+            echo "AWS Account ID: ${env.AWS_ACCOUNT_ID}"
         }
+    }
+}
         
         stage('Install Dependencies') {
             options {
