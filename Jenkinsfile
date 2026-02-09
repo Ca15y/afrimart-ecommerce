@@ -178,24 +178,23 @@ pipeline {
         }
         
         stage('Push to ECR') {
-            options {
-                timeout(time: 15, unit: 'MINUTES')
-            }
-            steps {
-                script {
-                    withCredentials([aws(credentialsId: 'aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        echo 'Logging into ECR...'
-                        sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${env.ECR_REGISTRY}"
-                        
-                        echo 'Pushing images to ECR...'
-                        sh "docker push ${env.BACKEND_IMAGE}:${env.IMAGE_TAG}"
-                        sh "docker push ${env.BACKEND_IMAGE}:latest"
-                        sh "docker push ${env.FRONTEND_IMAGE}:${env.IMAGE_TAG}"
-                        sh "docker push ${env.FRONTEND_IMAGE}:latest"
-                    }
-                }
-            }
+    options {
+        timeout(time: 15, unit: 'MINUTES')
+    }
+    steps {
+        script {
+            // No withCredentials needed - uses EC2 IAM role directly
+            echo 'Logging into ECR...'
+            sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${env.ECR_REGISTRY}"
+            
+            echo 'Pushing images to ECR...'
+            sh "docker push ${env.BACKEND_IMAGE}:${env.IMAGE_TAG}"
+            sh "docker push ${env.BACKEND_IMAGE}:latest"
+            sh "docker push ${env.FRONTEND_IMAGE}:${env.IMAGE_TAG}"
+            sh "docker push ${env.FRONTEND_IMAGE}:latest"
         }
+    }
+}
         
         stage('Deploy to Staging') {
             when {
