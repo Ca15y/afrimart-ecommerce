@@ -1,0 +1,9 @@
+ec2_public_ip = "54.146.225.241"
+eks_cluster_endpoint = "https://BFB5F47AF632185A90E06D50592EC4BB.gr7.us-east-1.eks.amazonaws.com"
+eks_cluster_name = "afrimart-staging-cluster"
+rds_endpoint = "terraform-20260120112103797900000001.cofy448g00lf.us-east-1.rds.amazonaws.com"
+redis_connection_string = <sensitive>
+redis_endpoint = "afrimart-staging-redis.3g76r9.0001.use1.cache.amazonaws.com"
+redis_port = 6379
+uploads_bucket = "afrimart-staging-uploads-bucket-7yi2xm"
+vpc_id = "vpc-0341e0941fa654148"
