@@ -9,6 +9,13 @@ WorkingDirectory=/opt/afrimart/backend
 ExecStart=/usr/bin/npm start
 Restart=always
 Environment=NODE_ENV=production
+Environment=PORT=5000
+Environment=DB_HOST=terraform-20260120112103797900000001.cofy448g00lf.us-east-1.rds.amazonaws.com
+Environment=DB_USER=afrimart
+Environment=DB_PASSWORD=N15ssc2002!
+Environment=DB_NAME=afrimartdb
+Environment=REDIS_URL=afrimart-staging-redis.3g76r9.0001.use1.cache.amazonaws.com
+
 
 [Install]
 WantedBy=multi-user.target
